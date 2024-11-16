@@ -1,0 +1,5 @@
+@base_adress = http://docker-web:5000/api
+@api_key = 6888a32b-7158-40a1-9d9e-4d3b542339e9
+
+GET {{base_adress}}/universities
+X-API-Key: {{api_key}}

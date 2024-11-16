@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+  edu.api:
+    image: ${DOCKER_REGISTRY-}eduapi
+    container_name: Edu.Api
+    build:
+      context: .
+      dockerfile: src/Api/Dockerfile
+    ports:
+      - 5000:8080
+      - 5001:8081
+    networks:
+      - docker-web
+
+  edu.seq:
+    image: datalust/seq:latest
+    container_name: Edu.Seq
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - 5341:5341
+      - 8081:80 
+    networks:
+      - docker-web
+  
+  edu.mongodb:
+    image: mongo:latest
+    container_name: Edu.mongodb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+    volumes:
+      - ./docker_data/mongodb:/data/db
+    ports:
+      - "27017:27017"
+    restart: always
+    networks:
+      - docker-web
+
+networks:
+  docker-web:
+    driver: bridge
